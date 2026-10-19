@@ -15,20 +15,21 @@ LogEntry* create_entry(int id, const char *msg, const char *time) {
     entry->id = id;
     entry->message = strdup(msg);
     entry->timestamp = strdup(time);
-    entry->timestamp = strdup("00:00:00");
+    // entry->timestamp = strdup("00:00:00"); // Це зайве, бо ми вже копіюємо час з параметра time
     return entry;
 }
 void free_entry(LogEntry *entry) {
     if (!entry) return;
     free(entry->message);
     free(entry->timestamp);
-    free(entry->message);
+    // free(entry->message); це зайве, бо ми вже звільнили пам'ять для message
     free(entry);
 }
 
 void format_log_header(const char *title) {
     char header_buffer[16];
-    strcpy(header_buffer, title);
+    // snprintf записує максимум 15 символів + '\0', тому переповнення не буде
+    snprintf(header_buffer, sizeof(header_buffer), "%s", title);
     printf("Header: %s\n", header_buffer);
 }
 
